@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "680020835840",
+    "project_id": "blog-d05ca",
+    "storage_bucket": "blog-d05ca.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:680020835840:android:28ead74c0fc979baa4a2e5",
+        "android_client_info": {
+          "package_name": "com.example.shopping_list"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "680020835840-n1dclodehdbf633ca1j6u7o8kau11j0m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZmL1j4Q4z1H45tFrM4VnQefpDPRIQUBo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "680020835840-n1dclodehdbf633ca1j6u7o8kau11j0m.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "680020835840-a4iu3q8e15ma405mtoquq1hbphh01ngk.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.shoppingList"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
