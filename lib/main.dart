@@ -15,8 +15,12 @@ Future<void> main() async {
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitDown,
     DeviceOrientation.portraitUp,
-  ]).then((value) => runApp(const MyApp()));
-  runApp(const MyApp());
+  ]).then((value) => runApp(MaterialApp(
+        home: const MyApp(),
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(brightness: Brightness.dark),
+      )));
+  // runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -24,19 +28,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: const Scaffold(
-        body: App(),
-        appBar: CupertinoNavigationBar(
-          middle: Text(
-            "Lista zakupów",
-            style: TextStyle(color: Color.fromARGB(255, 62, 62, 62), fontSize: 18),
-          ),
-          backgroundColor: Colors.greenAccent,
+    return const Scaffold(
+      body: App(),
+      appBar: CupertinoNavigationBar(
+        middle: Text(
+          "Lista zakupów",
+          style: TextStyle(color: Color.fromARGB(255, 62, 62, 62), fontSize: 18),
         ),
+        backgroundColor: Colors.greenAccent,
       ),
-      theme: ThemeData(brightness: Brightness.dark),
     );
   }
 }

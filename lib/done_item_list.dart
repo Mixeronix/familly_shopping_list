@@ -5,7 +5,7 @@ import 'delete_button.dart';
 class DoneItemList extends StatefulWidget {
   const DoneItemList({super.key, required this.items, required this.supabase, required this.onChangedState});
   final List items;
-  final supabase;
+  final dynamic supabase;
   final Function onChangedState;
 
   @override

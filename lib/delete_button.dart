@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class DeleteButton extends StatelessWidget {
-  final supabase;
+  final dynamic supabase;
   const DeleteButton({super.key, required this.supabase});
 
   @override

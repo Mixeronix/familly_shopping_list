@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class QuickAdd extends StatefulWidget {
   const QuickAdd({super.key, required this.supabase, required this.onSubmitted});
 
-  final supabase;
+  final dynamic supabase;
   final Function onSubmitted;
 
   @override
@@ -40,8 +40,6 @@ class _QuickAddState extends State<QuickAdd> {
           decoration: const InputDecoration(
             hintText: "Dodaj...",
             border: InputBorder.none,
-            enabledBorder: UnderlineInputBorder(borderSide: BorderSide(width: 0), borderRadius: BorderRadius.all(Radius.circular(10))),
-            focusedBorder: UnderlineInputBorder(borderSide: BorderSide(width: 0), borderRadius: BorderRadius.all(Radius.circular(10))),
           ),
         ),
         leading: const Padding(

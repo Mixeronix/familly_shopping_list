@@ -3,7 +3,6 @@ import 'package:shopping_list/done_item_list.dart';
 import 'package:shopping_list/item_list.dart';
 import 'package:shopping_list/quick_add.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
 import 'filter_bar.dart';
 
 class App extends StatefulWidget {
@@ -26,6 +25,7 @@ class _AppState extends State<App> {
     ["Warzywa", false, '🥕'],
     ["Nabiał", false, '🥛'],
     ["Mięsa", false, '🥩'],
+    ["Azjatyckie", false, '🥡'],
   ];
 
   void fetch() async {
@@ -60,8 +60,8 @@ class _AppState extends State<App> {
         }).toList();
 
         itemsUndone = itemsUndone.where((element) {
-          if (filters[0][1] || filters[1][1] || filters[2][1] || filters[3][1]) {
-            return (element['fruit'] == filters[0][1] && filters[0][1]) || (element['vegetable'] == filters[1][1] && filters[1][1]) || (element['fruit'] == filters[2][1] && filters[2][1]) || (element['meat'] == filters[3][1] && filters[3][1]);
+          if (filters[0][1] || filters[1][1] || filters[2][1] || filters[3][1] || filters[4][1]) {
+            return (element['fruit'] == filters[0][1] && filters[0][1]) || (element['vegetable'] == filters[1][1] && filters[1][1]) || (element['fruit'] == filters[2][1] && filters[2][1]) || (element['meat'] == filters[3][1] && filters[3][1]) || (element['asian'] == filters[4][1] && filters[4][1]);
           } else {
             return true;
           }
@@ -87,83 +87,84 @@ class _AppState extends State<App> {
       });
     }
 
-    return RefreshIndicator(
-      displacement: 5,
-      color: Colors.greenAccent,
-      onRefresh: () async {
-        var data = await supabase.from('products').select();
+    return Scaffold(
+      body: RefreshIndicator(
+        displacement: 5,
+        color: Colors.greenAccent,
+        onRefresh: () async {
+          var data = await supabase.from('products').select();
 
-        setState(() {
-          items = data;
-        });
-      },
-      child: Column(
-        children: [
-          Material(
-            color: Colors.grey[850],
-            child: Column(
-              children: [
-                QuickAdd(
-                  supabase: supabase,
-                  onSubmitted: (item) {
-                    setState(() {
-                      items.add(item);
-                    });
-                    print(item);
-                  },
-                ),
-                Filter(
-                  filters: filters,
-                  onSelected: (value, index) {
-                    setState(() {
-                      if (value) {
-                        for (var filter in filters) {
-                          filter[1] = false;
-                        }
-                        filters[index][1] = true;
-                      } else {
-                        filters[index][1] = false;
-                      }
-                    });
-                  },
-                )
-              ],
-            ),
-          ),
-          Expanded(
-            child: SingleChildScrollView(
+          setState(() {
+            items = data;
+          });
+        },
+        child: Column(
+          children: [
+            Material(
+              color: Colors.grey[850],
               child: Column(
                 children: [
-                  ItemList(
-                    items: itemsUndone,
+                  QuickAdd(
                     supabase: supabase,
-                    onChangedState: (index, value) {
-                      if (value!) {
-                        Future.delayed(const Duration(seconds: 61), () {
-                          setState(() {});
-                        });
-                      }
+                    onSubmitted: (item) {
                       setState(() {
-                        itemsUndone[index]["done"] = value;
-                        itemsUndone[index]['done_at'] = value ? DateTime.now().millisecondsSinceEpoch : null;
+                        items.add(item);
                       });
                     },
                   ),
-                  DoneItemList(
-                    supabase: supabase,
-                    items: itemsDone,
-                    onChangedState: (index, value) {
+                  Filter(
+                    filters: filters,
+                    onSelected: (value, index) {
                       setState(() {
-                        itemsDone[index]["done"] = value;
-                        itemsDone[index]['done_at'] = value! ? DateTime.now().millisecondsSinceEpoch : null;
+                        if (value) {
+                          for (var filter in filters) {
+                            filter[1] = false;
+                          }
+                          filters[index][1] = true;
+                        } else {
+                          filters[index][1] = false;
+                        }
                       });
                     },
                   )
                 ],
               ),
             ),
-          ),
-        ],
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    ItemList(
+                      items: itemsUndone,
+                      supabase: supabase,
+                      onChangedState: (index, value) {
+                        if (value!) {
+                          Future.delayed(const Duration(seconds: 61), () {
+                            setState(() {});
+                          });
+                        }
+                        setState(() {
+                          itemsUndone[index]["done"] = value;
+                          itemsUndone[index]['done_at'] = value ? DateTime.now().millisecondsSinceEpoch : null;
+                        });
+                      },
+                    ),
+                    DoneItemList(
+                      supabase: supabase,
+                      items: itemsDone,
+                      onChangedState: (index, value) {
+                        setState(() {
+                          itemsDone[index]["done"] = value;
+                          itemsDone[index]['done_at'] = value! ? DateTime.now().millisecondsSinceEpoch : null;
+                        });
+                      },
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

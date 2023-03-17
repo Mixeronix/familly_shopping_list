@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class ItemList extends StatefulWidget {
   final List items;
-  final supabase;
+  final dynamic supabase;
   final Function onChangedState;
 
   const ItemList({super.key, required this.items, required this.supabase, required this.onChangedState});
@@ -34,6 +34,7 @@ class _ItemListState extends State<ItemList> {
                 if (widget.items[index]["vegetable"]) const TextSpan(text: "🥕"),
                 if (widget.items[index]["dairy"]) const TextSpan(text: "🥛"),
                 if (widget.items[index]["meat"]) const TextSpan(text: "🥩"),
+                if (widget.items[index]["asian"]) const TextSpan(text: "🥡"),
               ]),
             ),
             leading: Checkbox(
