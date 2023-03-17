@@ -94,7 +94,10 @@ class _AppState extends State<App> {
           showDialog(
               context: context,
               builder: (context) {
-                return AddItem(supabase: supabase);
+                return AddItem(
+                  supabase: supabase,
+                  filters: filters,
+                );
               });
         },
         child: const Icon(
