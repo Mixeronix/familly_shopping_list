@@ -3,6 +3,7 @@ import 'package:shopping_list/done_item_list.dart';
 import 'package:shopping_list/item_list.dart';
 import 'package:shopping_list/quick_add.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'add_item.dart';
 import 'filter_bar.dart';
 
 class App extends StatefulWidget {
@@ -88,6 +89,20 @@ class _AppState extends State<App> {
     }
 
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showDialog(
+              context: context,
+              builder: (context) {
+                return AddItem(supabase: supabase);
+              });
+        },
+        child: const Icon(
+          Icons.add,
+          size: 36,
+          color: Color.fromARGB(255, 40, 40, 40),
+        ),
+      ),
       body: RefreshIndicator(
         displacement: 5,
         color: Colors.greenAccent,
