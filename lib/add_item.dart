@@ -27,6 +27,57 @@ class _AddItemState extends State<AddItem> {
     }
   }
 
+  void _showMultiSelect(BuildContext context) async {
+    await showModalBottomSheet(
+      isScrollControlled: true, // required for min/max child size
+      context: context,
+      builder: (ctx) {
+        return StatefulBuilder(
+          builder: (BuildContext context, void Function(void Function()) setStateInside) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    "Wybierz kategorie",
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 10),
+                  Wrap(
+                    spacing: 10,
+                    children: filters
+                        .map(
+                          (filter) => FilterChip(
+                            selectedColor: Colors.greenAccent,
+                            selected: filter[1],
+                            backgroundColor: const Color.fromARGB(255, 55, 55, 55),
+                            checkmarkColor: const Color.fromARGB(255, 40, 40, 40),
+                            label: Text(
+                              '${filter[2]} ${filter[0]}',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: filter[1] ? const Color.fromARGB(255, 40, 40, 40) : Colors.white,
+                              ),
+                            ),
+                            onSelected: (bool value) {
+                              setStateInside(() => filter[1] = value);
+                              setState(() => filter[1] = value);
+                            },
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -70,7 +121,9 @@ class _AddItemState extends State<AddItem> {
                       ? RawChip(
                           label: const Text("Kategorie"),
                           avatar: const Icon(Icons.add, color: Colors.greenAccent),
-                          onPressed: () {},
+                          onPressed: () {
+                            _showMultiSelect(context);
+                          },
                         )
                       : filters[index - 1][1]
                           ? Chip(
