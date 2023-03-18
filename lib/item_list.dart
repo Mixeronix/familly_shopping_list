@@ -35,6 +35,7 @@ class _ItemListState extends State<ItemList> {
                 if (widget.items[index]["dairy"]) const TextSpan(text: "🥛"),
                 if (widget.items[index]["meat"]) const TextSpan(text: "🥩"),
                 if (widget.items[index]["asian"]) const TextSpan(text: "🥡"),
+                if (widget.items[index]["drink"]) const TextSpan(text: "🧃"),
               ]),
             ),
             leading: Checkbox(

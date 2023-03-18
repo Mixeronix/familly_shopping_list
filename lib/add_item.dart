@@ -155,6 +155,7 @@ class _AddItemState extends State<AddItem> {
                 'dairy': filters[2][1],
                 'meat': filters[3][1],
                 'asian': filters[4][1],
+                'drink': filters[5][1],
               });
               for (var filter in filters) {
                 filter[1] = false;

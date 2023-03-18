@@ -27,6 +27,7 @@ class _AppState extends State<App> {
     ["Nabiał", false, '🥛'],
     ["Mięsa", false, '🥩'],
     ["Azjatyckie", false, '🥡'],
+    ["Napoje", false, '🧃'],
   ];
 
   void fetch() async {
@@ -61,8 +62,10 @@ class _AppState extends State<App> {
         }).toList();
 
         itemsUndone = itemsUndone.where((element) {
-          if (filters[0][1] || filters[1][1] || filters[2][1] || filters[3][1] || filters[4][1]) {
-            return (element['fruit'] == filters[0][1] && filters[0][1]) || (element['vegetable'] == filters[1][1] && filters[1][1]) || (element['fruit'] == filters[2][1] && filters[2][1]) || (element['meat'] == filters[3][1] && filters[3][1]) || (element['asian'] == filters[4][1] && filters[4][1]);
+          if (filters.any((element) => element[1])) {
+            List filtersList = element.keys.toList();
+            filtersList.removeRange(0, 5);
+            return filtersList.any((filter) => element[filter] == filters[filtersList.indexOf(filter)][1] && filters[filtersList.indexOf(filter)][1]);
           } else {
             return true;
           }
