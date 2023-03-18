@@ -145,7 +145,23 @@ class _AddItemState extends State<AddItem> {
       title: const Text("Dodaj produkt"),
       actions: [
         ElevatedButton(
-          onPressed: () {},
+          onPressed: () async {
+            if (text != '') {
+              await widget.supabase.from('products').insert({
+                "text": text,
+                "created_at": DateTime.now().millisecondsSinceEpoch,
+                'fruit': filters[0][1],
+                'vegetable': filters[1][1],
+                'dairy': filters[2][1],
+                'meat': filters[3][1],
+                'asian': filters[4][1],
+              });
+              for (var filter in filters) {
+                filter[1] = false;
+              }
+              Navigator.pop(context);
+            }
+          },
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.greenAccent,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),

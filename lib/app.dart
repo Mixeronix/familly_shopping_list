@@ -92,6 +92,7 @@ class _AppState extends State<App> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showDialog(
+              useRootNavigator: false,
               context: context,
               builder: (context) {
                 return AddItem(
