@@ -157,6 +157,7 @@ class _AppState extends State<App> {
                 child: Column(
                   children: [
                     ItemList(
+                      filters: filters,
                       items: itemsUndone,
                       supabase: supabase,
                       onChangedState: (index, value) {

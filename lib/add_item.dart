@@ -3,9 +3,16 @@ import 'package:flutter/material.dart';
 class AddItem extends StatefulWidget {
   const AddItem({
     super.key,
+    this.text,
     required this.supabase,
     required this.filters,
+    this.filtersOn,
+    this.id,
   });
+
+  final id;
+  final text;
+  final filtersOn;
   final dynamic supabase;
   final List filters;
 
@@ -21,9 +28,21 @@ class _AddItemState extends State<AddItem> {
   @override
   void initState() {
     super.initState();
+
+    if (widget.text != null) fieldText.text = widget.text;
+
+    int i = 0;
+
     for (var filter in widget.filters) {
-      filter[1] = false;
-      filters.add(filter);
+      if (widget.filtersOn != null) {
+        filter[1] = widget.filtersOn[i];
+        filters.add(filter);
+      } else {
+        filter[1] = false;
+        filters.add(filter);
+      }
+
+      i++;
     }
   }
 
@@ -147,16 +166,29 @@ class _AddItemState extends State<AddItem> {
         ElevatedButton(
           onPressed: () async {
             if (text != '') {
-              await widget.supabase.from('products').insert({
-                "text": text,
-                "created_at": DateTime.now().millisecondsSinceEpoch,
-                'fruit': filters[0][1],
-                'vegetable': filters[1][1],
-                'dairy': filters[2][1],
-                'meat': filters[3][1],
-                'asian': filters[4][1],
-                'drink': filters[5][1],
-              });
+              if (widget.text == null) {
+                await widget.supabase.from('products').insert({
+                  "text": text,
+                  "created_at": DateTime.now().millisecondsSinceEpoch,
+                  'fruit': filters[0][1],
+                  'vegetable': filters[1][1],
+                  'dairy': filters[2][1],
+                  'meat': filters[3][1],
+                  'asian': filters[4][1],
+                  'drink': filters[5][1],
+                });
+              } else {
+                await widget.supabase.from('products').update({
+                  "text": text,
+                  'fruit': filters[0][1],
+                  'vegetable': filters[1][1],
+                  'dairy': filters[2][1],
+                  'meat': filters[3][1],
+                  'asian': filters[4][1],
+                  'drink': filters[5][1],
+                }).match({'id': widget.id});
+              }
+              print("object");
               for (var filter in filters) {
                 filter[1] = false;
               }
@@ -167,7 +199,7 @@ class _AddItemState extends State<AddItem> {
             backgroundColor: Colors.greenAccent,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           ),
-          child: const Text("Dodaj produkt"),
+          child: Text(widget.text == null ? "Dodaj produkt" : "Zatwierdź"),
         )
       ],
     );
